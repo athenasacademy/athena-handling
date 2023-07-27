@@ -16,11 +16,19 @@ class QueueConsumerService : IQueueConsumerService
 
     public async Task IniciarServico()
     {
-        Task taskContrato = TaskConsumerContrato();
-        Task taskBoleto = TaskConsumerBoleto();
-        Task.WhenAll(taskContrato, taskBoleto).Wait();
-        Console.WriteLine("Fim do programa.");
-        await Task.FromResult(true);
+        try
+        {
+            Task taskContrato = TaskConsumerContrato();
+            Task taskBoleto = TaskConsumerBoleto();
+            Task.WhenAll(taskContrato, taskBoleto).Wait();
+            Console.WriteLine("Fim do programa.");
+            await Task.FromResult(true);
+        }
+        catch (System.Exception ex)
+        {
+            Console.WriteLine($"Ocorreu um erro ou mais. {ex.Message}");
+            await IniciarServico();
+        }
     }
 
     public async Task TaskConsumerBoleto()

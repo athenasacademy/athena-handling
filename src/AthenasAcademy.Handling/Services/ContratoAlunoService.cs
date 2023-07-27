@@ -20,7 +20,7 @@ public class ContratoAlunoService : IContratoAlunoService
     {
         string doc = "contrato_" +
             contratoEvent.Aluno.CPF.Replace("-", "").Replace(".", "") +
-            DateTime.Now.ToString("ddMMyyyy") + ".xlsx";
+            DateTime.Now.ToString("ddMMyyyy") + ".doc";
 
         string pdf = doc.Replace(".doc", ".pdf");
 
@@ -34,7 +34,9 @@ public class ContratoAlunoService : IContratoAlunoService
 
         string texto = GerarTextoContrato(contratoEvent);
 
-        //EscreverTextoContrato(entratda, Path.Combine(saida, doc), texto);
+        EscreverContratoEmArquivoDoc(entrada, Path.Combine(saida, doc), texto);
+
+        // GerarPDF(entrada, Path.Combine(saida, pdf))
 
         IAwsS3Repository s3repositiry = new AwsS3Repository(_secrets);
         string caminhoPDF = await s3repositiry.EnviarPDFAsync("contratos/PDF", Path.Combine(saida, pdf));

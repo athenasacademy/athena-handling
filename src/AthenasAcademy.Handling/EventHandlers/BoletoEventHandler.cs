@@ -34,16 +34,15 @@ public class BoletoEventHandler : AWSEventHandlerBase, IBoletoEventHandler
         }
     }
 
-
     private async void GerarBoleto(ReceiveMessageResponse @event)
     {
         string json = @event.Messages.First().Body;
-        Console.Write($"[Nova Menssagem] Boleto: {json}");
+        Console.WriteLine($"[Nova Menssagem] Boleto: {json}");
 
         BoletoEventMessage boletoEvent = JsonSerializer.Deserialize<BoletoEventMessage>(json);
         await new BoletoAlunoService(_secrets).GerarBoletoPDF(boletoEvent);
 
-        Console.Write($"[Boleto Aguardando Nova Menssagem]");
+        Console.WriteLine($"[Boleto Aguardando Nova Menssagem]");
         return;
     }
 }

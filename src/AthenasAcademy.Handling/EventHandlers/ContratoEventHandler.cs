@@ -37,11 +37,12 @@ public class ContratoEventHandler : AWSEventHandlerBase, IContratoEventHandler
     private async void GerarContrato(ReceiveMessageResponse @event)
     {
         string json = @event.Messages.First().Body;
-        Console.Write($"[Nova Menssagem] Contrato: {json}");
+        Console.WriteLine($"[Nova Menssagem] Contrato: {json}");
 
         ContratoMessageEvent contratoEvent = JsonSerializer.Deserialize<ContratoMessageEvent>(json);
         await new ContratoAlunoService(_secrets).GerarContratoPDF(contratoEvent);
         
-        Console.Write($"[Contrato Aguardando Nova Menssagem]");
+        Console.WriteLine($"[Contrato Aguardando Nova Menssagem]");
+        return;
     }
 }

@@ -15,7 +15,7 @@ public class AwsS3Repository : IAwsS3Repository
         _secrets = secrets;
     }
 
-    public async Task<string> EnviarPDFAsync(string arquivo, string caminho)
+    public async Task<string> EnviarPDFAsync(string caminho, string arquivo)
     {
         try
         {
@@ -45,7 +45,7 @@ public class AwsS3Repository : IAwsS3Repository
         }
     }
 
-    public async Task<string> EnviarPNGAsync(string arquivo, string caminho)
+    public async Task<string> EnviarPNGAsync(string caminho, string arquivo)
     {
         try
         {
