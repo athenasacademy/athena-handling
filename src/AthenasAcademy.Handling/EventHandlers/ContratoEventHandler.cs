@@ -3,7 +3,6 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using AthenasAcademy.Handling.EventHandlers.Interfaces;
 using AthenasAcademy.Handling.Secrets;
-using Microsoft.Extensions.Configuration;
 
 namespace AthenasAcademy.Handling.EventHandlers;
 
