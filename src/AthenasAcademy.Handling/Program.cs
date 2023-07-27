@@ -1,4 +1,5 @@
-﻿using AthenasAcademy.Handling.Services;
+﻿using AthenasAcademy.Handling.Secrets;
+using AthenasAcademy.Handling.Services;
 using AthenasAcademy.Handling.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
@@ -14,7 +15,10 @@ public class Program
           .AddCommandLine(args)
           .Build();
 
-        IQueueConsumerService consomer = new QueueConsumerService(configuration);
+        AWSSecrets secrets = new AWSSecrets();
+        configuration.GetSection("AWS").Bind(secrets);
+
+        IQueueConsumerService consomer = new QueueConsumerService(secrets);
         await consomer.IniciarServico();
     }
 }
