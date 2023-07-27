@@ -27,7 +27,7 @@ public class Program
             DatabaseConnection = secretsDatabaseConnection
         };
 
-        IQueueConsumerService consomer = new QueueConsumerService(secrets);
-        await consomer.IniciarServico();
+        IQueueConsumerService consumer = new QueueConsumerService(secrets);
+        await consumer.IniciarServico();
     }
 }

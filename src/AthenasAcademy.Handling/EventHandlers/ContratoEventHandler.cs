@@ -1,7 +1,10 @@
+using System.Text.Json;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using AthenasAcademy.Handling.EventHandlers.Interfaces;
+using AthenasAcademy.Handling.MessageEvents;
 using AthenasAcademy.Handling.Secrets;
+using AthenasAcademy.Handling.Services;
 
 namespace AthenasAcademy.Handling.EventHandlers;
 
@@ -36,8 +39,8 @@ public class ContratoEventHandler : AWSEventHandlerBase, IContratoEventHandler
         string json = @event.Messages.First().Body;
         Console.Write($"[Nova Menssagem] Contrato: {json}");
 
-        // BoletoEventMessage boletoEvent = JsonSerializer.Deserialize<BoletoEventMessage>(json);
-        // await new BoletoAlunoService().GerarBoletoPDF(boletoEvent);
+        ContratoMessageEvent contratoEvent = JsonSerializer.Deserialize<ContratoMessageEvent>(json);
+        await new ContratoAlunoService(_secrets).GerarContratoPDF(contratoEvent);
         
         Console.Write($"[Contrato Aguardando Nova Menssagem]");
     }

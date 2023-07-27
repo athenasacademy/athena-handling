@@ -14,7 +14,7 @@ public class ContratoAlunoRepository : BaseRepository, IContratoAlunoRepository
         _secrets = secrets;
     }
 
-    public async Task SalvarRegistrarContrato(int codigoContrato, string caminhoPDF)
+    public async Task RegistrarContratoAluno(int codigoContrato, string caminhoPDF)
     {
 
         var connectionString = _secrets.DatabaseConnection.AthenasDatabaseConnection;

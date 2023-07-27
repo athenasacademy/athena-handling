@@ -69,7 +69,7 @@ public class BoletoAlunoService : IBoletoAlunoService
 
         LimparSaida(saida);
 
-        await new BoletoAlunoRepository(_secrets).SalvarRegistrarBoleto(boletoEvent.CodigoInscricao, caminhoPDF);
+        await new BoletoAlunoRepository(_secrets).RegistrarBoletoCandidato(boletoEvent.CodigoInscricao, caminhoPDF);
 
         return await Task.FromResult(true);
     }

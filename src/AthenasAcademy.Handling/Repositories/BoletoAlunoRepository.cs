@@ -14,7 +14,7 @@ public class BoletoAlunoRepository : BaseRepository, IBoletoAlunoRepository
         _secrets = secrets;
     }
 
-    public async Task SalvarRegistrarBoleto(int codigoInscricao, string caminhoPDF)
+    public async Task RegistrarBoletoCandidato(int codigoInscricao, string caminhoPDF)
     {
 
         var connectionString = _secrets.DatabaseConnection.AthenasDatabaseConnection;

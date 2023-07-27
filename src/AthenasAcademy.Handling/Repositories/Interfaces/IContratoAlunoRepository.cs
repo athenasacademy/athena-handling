@@ -2,5 +2,5 @@ namespace AthenasAcademy.Handling.Repositories.Interfaces;
 
 public interface IContratoAlunoRepository
 {
-    Task SalvarRegistrarContrato(int codigoMatricula, string caminhoPDF);
+    Task RegistrarContratoAluno(int codigoMatricula, string caminhoPDF);
 }
