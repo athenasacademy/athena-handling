@@ -2,6 +2,8 @@ namespace AthenasAcademy.Handling.MessageEvents;
 
 public class BoletoEventMessage
 {
+    public int CodigoInscricao { get; set; }
+
     public string DataVencimento { get; set; }
 
     public decimal ValorDocumento { get; set; }

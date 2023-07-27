@@ -1,4 +1,3 @@
-using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using AthenasAcademy.Handling.EventHandlers.Interfaces;
@@ -8,25 +7,38 @@ namespace AthenasAcademy.Handling.EventHandlers;
 
 public class ContratoEventHandler : AWSEventHandlerBase, IContratoEventHandler
 {
-    private AWSSecrets _secrets;
+    private AppSecrets _secrets;
 
-    public ContratoEventHandler(AWSSecrets secrets) : base(secrets)
+    public ContratoEventHandler(AppSecrets secrets) : base(secrets)
     {
         _secrets = secrets;
     }
     public async Task Handle()
     {
-        string queueUrl = _secrets.SQS.Queues.QueueContrato;
+        string queueUrl = _secrets.AWS.SQS.Queues.QueueContrato;
 
         try
         {
             AmazonSQSClient cliente = GetClient(queueUrl);
             ReceiveMessageRequest receiver = new ReceiveMessageRequest { QueueUrl = queueUrl };
-            await cliente.ReceiveMessageAsync(receiver);
+            var request = await cliente.ReceiveMessageAsync(receiver);
+            if (request.Messages.Any())
+                GerarContrato(request);
         }
-        catch (Exception ex )
-        { 
+        catch (Exception ex)
+        {
             Console.WriteLine(ex.Message);
         }
+    }
+
+    private async void GerarContrato(ReceiveMessageResponse @event)
+    {
+        string json = @event.Messages.First().Body;
+        Console.Write($"[Nova Menssagem] Contrato: {json}");
+
+        // BoletoEventMessage boletoEvent = JsonSerializer.Deserialize<BoletoEventMessage>(json);
+        // await new BoletoAlunoService().GerarBoletoPDF(boletoEvent);
+        
+        Console.Write($"[Contrato Aguardando Nova Menssagem]");
     }
 }

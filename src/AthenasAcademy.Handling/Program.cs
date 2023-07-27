@@ -15,8 +15,17 @@ public class Program
           .AddCommandLine(args)
           .Build();
 
-        AWSSecrets secrets = new AWSSecrets();
-        configuration.GetSection("AWS").Bind(secrets);
+        AWS secretsAWS = new();
+        DatabaseConnection secretsDatabaseConnection = new();
+
+        configuration.GetSection("AWS").Bind(secretsAWS);
+        configuration.GetSection("DatabaseConnection").Bind(secretsDatabaseConnection);
+
+        AppSecrets secrets = new()
+        {
+            AWS = secretsAWS,
+            DatabaseConnection = secretsDatabaseConnection
+        };
 
         IQueueConsumerService consomer = new QueueConsumerService(secrets);
         await consomer.IniciarServico();

@@ -1,6 +1,18 @@
 namespace AthenasAcademy.Handling.Secrets;
 
-public class AWSSecrets
+
+public class AppSecrets
+{
+    public AWS AWS { get; set; }
+    public DatabaseConnection DatabaseConnection { get; set; }
+}
+
+public class DatabaseConnection
+{
+    public string AthenasDatabaseConnection { get; set; }
+}
+
+public class AWS
 {
     public string AccessKey { get; set; }
 

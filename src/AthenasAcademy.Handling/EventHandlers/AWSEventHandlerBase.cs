@@ -6,17 +6,17 @@ namespace AthenasAcademy.Handling.EventHandlers;
 
 public class AWSEventHandlerBase
 {
-    private AWSSecrets _secrets;
+    private AppSecrets _secrets;
 
-    protected AWSEventHandlerBase(AWSSecrets secrets)
+    protected AWSEventHandlerBase(AppSecrets secrets)
     {
         _secrets = secrets;
     }
 
     protected AmazonSQSClient GetClient(string queueUrl)
     {
-        string accessKey = _secrets.AccessKey;
-        string secretKey = _secrets.SecretKey;
+        string accessKey = _secrets.AWS.AccessKey;
+        string secretKey = _secrets.AWS.SecretKey;
 
         AmazonSQSConfig sqsConfig = new AmazonSQSConfig
         {
