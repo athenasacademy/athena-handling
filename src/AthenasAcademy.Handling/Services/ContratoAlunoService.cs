@@ -50,12 +50,26 @@ public class ContratoAlunoService : IContratoAlunoService
 
     public void EscreverContratoEmArquivoDoc(string textoContrato, string entrada, string saida)
     {
-        // using (Xceed.Words.NET.DocX doc = Xceed.Words.NET.DocX.Load(entrada))
-        // {
-        //     doc.InsertParagraph(17, textoContrato, false);
-        //     doc.SaveAs(saida);
-        // }
+        using (FileStream fs = new FileStream(entrada, FileMode.Open, FileAccess.ReadWrite))
+        {
+            NPOI.XWPF.UserModel.XWPFDocument doc = new NPOI.XWPF.UserModel.XWPFDocument(fs);
+
+            // Limpar o conteúdo existente do documento
+            doc.Paragraphs.Clear();
+
+            // Adicionar um novo parágrafo contendo o texto do contrato
+            NPOI.XWPF.UserModel.XWPFParagraph paragraph = doc.CreateParagraph();
+            NPOI.XWPF.UserModel.XWPFRun run = paragraph.CreateRun();
+            run.SetText(textoContrato);
+
+            // Salvar as alterações no mesmo arquivo
+            using (FileStream outputFs = new FileStream(saida, FileMode.Create))
+            {
+                doc.Write(outputFs);
+            }
+        }
     }
+
 
     public string GerarTextoContrato(ContratoMessageEvent contrato)
     {
