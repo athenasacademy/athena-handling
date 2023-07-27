@@ -28,6 +28,6 @@ public class ContratoAlunoRepository : BaseRepository, IContratoAlunoRepository
                 await connection.ExecuteAsync(query, new { Contrato = codigoContrato, ContratoMatricula = caminhoPDF });
             }
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception) { }
     }
 }

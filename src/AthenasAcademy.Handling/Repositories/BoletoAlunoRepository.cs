@@ -28,6 +28,6 @@ public class BoletoAlunoRepository : BaseRepository, IBoletoAlunoRepository
                 await connection.ExecuteAsync(query, new { CodigoInscricao = codigoInscricao, NovoBoleto = caminhoPDF });
             }
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception) {}
     }
 }

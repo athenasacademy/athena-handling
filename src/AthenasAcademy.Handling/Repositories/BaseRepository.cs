@@ -28,6 +28,6 @@ public class BaseRepository
              _connection.Open();
             return _connection;
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception) { return null; }
     }
 }
