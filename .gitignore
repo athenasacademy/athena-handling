@@ -9,6 +9,7 @@
 /bin/
 /obj/
 .vscode/
+*.json
 
 # User-specific files
 *.rsuser
