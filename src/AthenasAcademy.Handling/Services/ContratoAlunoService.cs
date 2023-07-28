@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Text;
 using AthenasAcademy.Handling.MessageEvents;
 using AthenasAcademy.Handling.Repositories;
@@ -18,15 +19,13 @@ public class ContratoAlunoService : IContratoAlunoService
 
     public async Task<bool> GerarContratoPDF(ContratoMessageEvent contratoEvent)
     {
-        string doc = "contrato_" +
+        string png = "contrato_" +
             contratoEvent.Aluno.CPF.Replace("-", "").Replace(".", "") +
-            DateTime.Now.ToString("ddMMyyyy") + ".doc";
-
-        string pdf = doc.Replace(".doc", ".pdf");
+            DateTime.Now.ToString("ddMMyyyy") + ".png";
 
         string entrada = Path.Combine(
             Directory.GetCurrentDirectory(),
-            Path.Combine("FileModels", "modelo-contrato.doc"));
+            Path.Combine("FileModels", "modelo-contrato.png"));
 
         string saida = Path.Combine(
             Directory.GetCurrentDirectory(),
@@ -34,12 +33,10 @@ public class ContratoAlunoService : IContratoAlunoService
 
         string texto = GerarTextoContrato(contratoEvent);
 
-        EscreverContratoEmArquivoDoc(entrada, Path.Combine(saida, doc), texto);
-
-        // GerarPDF(entrada, Path.Combine(saida, pdf))
+        EscreverContratoEmArquivoDoc(entrada, Path.Combine(saida, png), texto);
 
         IAwsS3Repository s3repositiry = new AwsS3Repository(_secrets);
-        string caminhoPDF = await s3repositiry.EnviarPDFAsync("contratos/PDF", Path.Combine(saida, pdf));
+        string caminhoPDF = await s3repositiry.EnviarPNGAsync("contratos/PNG", Path.Combine(saida, png));
 
         LimparSaida(saida);
 
@@ -48,24 +45,20 @@ public class ContratoAlunoService : IContratoAlunoService
         return await Task.FromResult(true);
     }
 
-    public void EscreverContratoEmArquivoDoc(string textoContrato, string entrada, string saida)
+    public void EscreverContratoEmArquivoDoc(string entrada, string saida, string textoContrato)
     {
-        using (FileStream fs = new FileStream(entrada, FileMode.Open, FileAccess.ReadWrite))
+        using (Bitmap image = new Bitmap(entrada))
         {
-            NPOI.XWPF.UserModel.XWPFDocument doc = new NPOI.XWPF.UserModel.XWPFDocument(fs);
-
-            // Limpar o conteúdo existente do documento
-            doc.Paragraphs.Clear();
-
-            // Adicionar um novo parágrafo contendo o texto do contrato
-            NPOI.XWPF.UserModel.XWPFParagraph paragraph = doc.CreateParagraph();
-            NPOI.XWPF.UserModel.XWPFRun run = paragraph.CreateRun();
-            run.SetText(textoContrato);
-
-            // Salvar as alterações no mesmo arquivo
-            using (FileStream outputFs = new FileStream(saida, FileMode.Create))
+            Font font = new Font("Arial", 8, FontStyle.Regular);
+            using (Graphics graphics = Graphics.FromImage(image))
             {
-                doc.Write(outputFs);
+                Brush brush = new SolidBrush(Color.Black);
+
+                int x = 100;
+                int y = 100;
+
+                graphics.DrawString(textoContrato, font, brush, x, y);
+                image.Save(saida, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
     }
@@ -75,27 +68,62 @@ public class ContratoAlunoService : IContratoAlunoService
     {
         StringBuilder textoContrato = new StringBuilder();
         textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
+        textoContrato.AppendLine();
         textoContrato.AppendLine($"CONTRATO DE PRESTAÇÃO DE SERVIÇOS EDUCACIONAIS: {contrato.CodigoContrato.ToString().PadLeft(10, '0')}");
         textoContrato.AppendLine();
-        textoContrato.AppendLine($"Pelo presente instrumento particular, de um lado, a Athenas Academy, pessoa jurídica de direito privado, CNPJ 00.000.000/0000-00, com sede na Rua das Escolas, 123, Cidade-Escola, Estado-UF, CEP 12345-678, doravante denominada CONTRATADA, e de outro lado, o(a) Sr(a). {contrato.Aluno.Nome}, CPF {contrato.Aluno.CPF}, sexo {contrato.Aluno.Sexo}, nascido(a) em {contrato.Aluno.DataNascimento}, e-mail {contrato.Aluno.Email}, doravante denominado(a) CONTRATANTE, têm entre si, justas e acordadas, as seguintes cláusulas:");
+        textoContrato.AppendLine();
+        
+		textoContrato.AppendLine($"Pelo presente instrumento particular, de um lado, a Athenas Academy, pessoa jurídica de direito privado, CNPJ 00.000.000/0000-00, ");
+		textoContrato.AppendLine($"com sede na Rua das Escolas, 123, Cidade-Escola, Estado-UF, CEP 12345-678, doravante denominada CONTRATADA, e de outro lado, o(a) ");
+		textoContrato.AppendLine($"Sr(a). {contrato.Aluno.Nome}, CPF {contrato.Aluno.CPF}, sexo {contrato.Aluno.Sexo}, nascido(a) em {contrato.Aluno.DataNascimento}, ");
+		textoContrato.AppendLine($"e-mail {contrato.Aluno.Email}, doravante denominado(a) CONTRATANTE, têm entre si, justas e acordadas, as seguintes cláusulas:");
+        textoContrato.AppendLine();
         textoContrato.AppendLine();
         textoContrato.AppendLine("1. OBJETO");
-        textoContrato.AppendLine($"1.1. O presente contrato tem como objeto a prestação de serviços educacionais para o(a) CONTRATANTE no curso de {contrato.Curso.Nome}, na modalidade presencial, com carga horária total de {contrato.Curso.CargaHoraria} horas.");
-        textoContrato.AppendLine();
+        textoContrato.AppendLine($"1.1. O presente contrato tem como objeto a prestação de serviços educacionais para o(a) CONTRATANTE no curso de {contrato.Curso.Nome}, ");
+		textoContrato.AppendLine($"na modalidade presencial, com carga horária total de {contrato.Curso.CargaHoraria} horas.");
         textoContrato.AppendLine("Outras cláusulas e informações podem ser adicionadas conforme necessário.");
         textoContrato.AppendLine();
+        textoContrato.AppendLine();
         textoContrato.AppendLine("2. VALOR DO CONTRATO");
-        textoContrato.AppendLine($"2.1. O valor total do contrato é de R$ {contrato.ValorContrato}.");
+        textoContrato.AppendLine($"2.1. O valor total do contrato é de R$ {(int)contrato.ValorContrato}.");
+        textoContrato.AppendLine();
         textoContrato.AppendLine();
         textoContrato.AppendLine("3. FORMA DE PAGAMENTO");
-        textoContrato.AppendLine("3.1. O pagamento do valor total do contrato será feito através de boleto bancário, gerado mensalmente e enviado ao(a) CONTRATANTE para o endereço fornecido.");
+        textoContrato.AppendLine("3.1. O pagamento do valor total do contrato será feito através de boleto bancário, gerado mensalmente ");
+		textoContrato.AppendLine("e enviado ao(a) CONTRATANTE para o endereço fornecido.");
+        textoContrato.AppendLine();
         textoContrato.AppendLine();
         textoContrato.AppendLine("4. ASSINATURA");
-        textoContrato.AppendLine("4.1. O(a) CONTRATANTE declara ciência e concordância com todas as cláusulas e condições do presente contrato, estando de acordo com os termos estabelecidos.");
+        textoContrato.AppendLine("4.1. O(a) CONTRATANTE declara ciência e concordância com todas as cláusulas e condições do presente contrato, estando de acordo com ");
+		textoContrato.AppendLine("os termos estabelecidos.");
         textoContrato.AppendLine("4.2. O presente contrato entra em vigor a partir da data de assinatura e terá validade durante todo o período do curso escolhido.");
-        textoContrato.AppendLine("4.3. O(a) CONTRATANTE declara estar ciente de seus direitos e deveres enquanto aluno(a) da Athenas Academy e se compromete a cumprir todas as normas e regulamentos da instituição.");
+        textoContrato.AppendLine("4.3. O(a) CONTRATANTE declara estar ciente de seus direitos e deveres enquanto aluno(a) da Athenas Academy e se compromete a cumprir ");
+		textoContrato.AppendLine("todas as normas e regulamentos da instituição.");
+		textoContrato.AppendLine();
         textoContrato.AppendLine();
-        textoContrato.AppendLine();
+		textoContrato.AppendLine();
+		textoContrato.AppendLine();
+		textoContrato.AppendLine();
+		textoContrato.AppendLine();
         textoContrato.AppendLine($"Athenas Academy, {FormatarData(DateTime.Now)}");
         textoContrato.AppendLine();
         textoContrato.AppendLine();

@@ -37,7 +37,7 @@ class QueueConsumerService : IQueueConsumerService
         {
             IBoletoEventHandler boletoEventHandler = new BoletoEventHandler(_secrets);
             await boletoEventHandler.Handle();
-            await Task.Delay(1000);
+            await Task.Delay(100);
         }
     }
 
