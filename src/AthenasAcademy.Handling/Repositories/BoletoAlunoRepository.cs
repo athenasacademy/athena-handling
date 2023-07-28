@@ -24,10 +24,10 @@ public class BoletoAlunoRepository : BaseRepository, IBoletoAlunoRepository
         {
             using (IDbConnection connection = GetConnection())
             {
-                string query = "UPDATE inscricao_candidato SET boleto = @NovoBoleto WHERE codigo_inscricao = @CodigoInscricao;";
-                await connection.ExecuteAsync(query, new { CodigoInscricao = codigoInscricao, NovoBoleto = caminhoPDF });
+                string query = "UPDATE inscricao_candidato SET dir_boleto_inscricao = @BoletoInscricao WHERE codigo_inscricao = @CodigoInscricao;";
+                await connection.ExecuteAsync(query, new { CodigoInscricao = codigoInscricao, BoletoInscricao = caminhoPDF });
             }
         }
-        catch (Exception) {}
+        catch (Exception ex) { Console.WriteLine($"Erro ao registrar processo de geração do boleto. {ex.Message}"); }
     }
 }

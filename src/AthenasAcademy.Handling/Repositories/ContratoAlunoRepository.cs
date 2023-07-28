@@ -24,10 +24,10 @@ public class ContratoAlunoRepository : BaseRepository, IContratoAlunoRepository
         {
             using (IDbConnection connection = GetConnection())
             {
-                string query = "UPDATE contrato_matricula_aluno SET contrato_matricula = @ContratoMatricula WHERE contrato = @Contrato;";
+                string query = "UPDATE contrato_matricula_aluno SET dir_contrato_matricula = @ContratoMatricula WHERE contrato = @Contrato;";
                 await connection.ExecuteAsync(query, new { Contrato = codigoContrato, ContratoMatricula = caminhoPDF });
             }
         }
-        catch (Exception) { }
+        catch (Exception ex) { Console.WriteLine($"Erro ao registrar processo de geração do contrato. {ex.Message}"); }
     }
 }

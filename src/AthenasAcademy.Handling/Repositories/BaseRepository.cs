@@ -18,16 +18,20 @@ public class BaseRepository
         {
             NpgsqlConnectionStringBuilder builder = new(_configuration.AthenasDatabaseConnection);
 
-            builder.MaxPoolSize = 100;
+            builder.MaxPoolSize = 200;
             builder.MinPoolSize = 1;
-            builder.ConnectionIdleLifetime = 500;
+            builder.ConnectionIdleLifetime = 1000;
             builder.Pooling = true;
 
             _connection = new NpgsqlConnection(builder.ConnectionString);
 
-             _connection.Open();
+            _connection.Open();
             return _connection;
         }
-        catch (Exception) { return null; }
+        catch (Exception ex) 
+        { 
+            Console.WriteLine($"Erro ao tentar conexao. {ex.Message}"); 
+            return null;
+        }
     }
 }

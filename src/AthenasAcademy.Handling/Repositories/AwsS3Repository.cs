@@ -37,11 +37,13 @@ public class AwsS3Repository : IAwsS3Repository
         }
         catch (AmazonS3Exception ex)
         {
-            throw new Exception($"Erro ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            Console.WriteLine($"Erro ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            return string.Empty;
         }
         catch (Exception ex)
         {
-            throw new Exception($"Erro geral ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            Console.WriteLine($"Erro geral ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            return string.Empty;
         }
     }
 
@@ -67,11 +69,13 @@ public class AwsS3Repository : IAwsS3Repository
         }
         catch (AmazonS3Exception ex)
         {
-            throw new Exception($"Erro ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            Console.WriteLine($"Erro ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            return string.Empty;
         }
         catch (Exception ex)
         {
-            throw new Exception($"Erro geral ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            Console.WriteLine($"Erro geral ao enviar o arquivo PDF para o Amazon S3: {ex.Message}");
+            return string.Empty;
         }
     }
 
