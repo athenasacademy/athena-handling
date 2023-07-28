@@ -12,3 +12,4 @@ A aplicação de mensageria em nosso sistema, é responsavel por tratar eventos 
 # Exemplos e Screenshots:
 
 # Requisitos do Sistema:
+SQS
