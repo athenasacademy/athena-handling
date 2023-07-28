@@ -1,7 +1,7 @@
 # Titulo: 
 ## athenas-handling
 # Exemplos de Uso:
-A aplicação de mesangeria dentro da nossa aplicação, fica responsável por tratar os eventos que geram certificados e boletos para pagamentos
+Dentro da nossa aplicação, temos um módulo de mensageria que desempenha um papel fundamental. Ele é responsável por tratar os eventos que geram certificados, contratos e boletos para pagamentos. Essa funcionalidade permite uma comunicação eficiente entre os diversos componentes do sistema, garantindo que os processos de geração de certificados e boletos sejam executados de forma eficaz e sincronizada. 
 
 # Exemplos e Screenshots:
 
