@@ -7,7 +7,7 @@ Dentro da nossa aplicação, temos um módulo de mensageria que desempenha um pa
 
 Contrato de aluno
 
-<img src="https://github.com/athenasacademy/athena-handling/assets/106875411/1059d2bc-be83-41e2-88ee-0724255e07d7" width="400" height="300" alt="Descrição da imagem">
+<img src="https://github.com/athenasacademy/athena-handling/assets/106875411/1059d2bc-be83-41e2-88ee-0724255e07d7" width="400" height="600" alt="Descrição da imagem">
 
 
 Certificado
