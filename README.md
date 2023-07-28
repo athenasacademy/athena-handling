@@ -1,5 +1,3 @@
-# athenas-handling
-# Titulo: 
 ## athena-mensageria
 A aplicação de mensageria em nosso sistema, é responsavel por tratar eventos responsaveis pela geração do certificado e boleto paa pagamento. 
 # Exemplos de Uso:
